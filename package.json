@@ -9,6 +9,7 @@
         "@headlessui/react": "^2.0.0",
         "@inertiajs/react": "^2.0.0",
         "@tailwindcss/forms": "^0.5.3",
+        "@tailwindcss/typography": "^0.5.9",
         "@vitejs/plugin-react": "^4.2.0",
         "autoprefixer": "^10.4.12",
         "axios": "^1.6.1",
@@ -27,6 +28,7 @@
         "marked": "^7.0.5",
         "react-hot-toast": "^2.4.1",
         "react-loader-spinner": "^5.4.5",
-        "sweetalert2": "^11.7.27"
+        "sweetalert2": "^11.7.27",
+        "tailwind-scrollbar-hide": "^1.1.7"
     }
 }

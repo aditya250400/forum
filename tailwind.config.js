@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import defaultTheme from 'tailwindcss/defaultTheme';
 import forms from '@tailwindcss/forms';
 
@@ -18,5 +19,9 @@ export default {
         },
     },
 
-    plugins: [forms],
+    plugins: [
+        forms,
+        require('@tailwindcss/typography'),
+        require('tailwind-scrollbar-hide')
+    ],
 };

@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Http\Resources\User\UsersResource;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 
@@ -32,7 +33,7 @@ class HandleInertiaRequests extends Middleware
         return [
             ...parent::share($request),
             'auth' => [
-                'user' => $request->user(),
+                'user' => $request->user() ? new UsersResource($request->user()->loadCount('threads', 'comments', 'resolved', 'notification_unreads')) : null,
             ],
         ];
     }
