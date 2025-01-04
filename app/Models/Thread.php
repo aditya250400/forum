@@ -11,6 +11,19 @@ class Thread extends Model
     protected $guarded = [];
 
 
+    public function scopeSearch($query)
+    {
+        return $query->when(request()->search, function ($query) {
+            $query->where('title', 'like', '%' . request()->search . '%');
+        });
+    }
+
+    public function scopeStatus($query)
+    {
+        return $query->when(request()->status, function ($query) {
+            $query->where('status', request()->status);
+        });
+    }
 
     public function user()
     {

@@ -67,19 +67,7 @@ class User extends Authenticatable
         );
     }
 
-    public function scopeSearch($query)
-    {
-        return $query->when(request()->search, function ($query) {
-            $query->where('title', 'like', '%' . request()->search . '%');
-        });
-    }
 
-    public function scopeStatus($query)
-    {
-        return $query->when(request()->status, function ($query) {
-            $query->where('status', request()->status);
-        });
-    }
 
     public function threads()
     {

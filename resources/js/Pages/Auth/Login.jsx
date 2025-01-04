@@ -4,13 +4,13 @@ import { Head, Link, useForm } from "@inertiajs/react";
 import { IconLock, IconUser } from "@tabler/icons-react";
 
 export default function Login() {
-    const { data, setData, post, errors } = useForm({
+    const { data, setData, post, errors, processing } = useForm({
         email: "",
         password: "",
     });
 
     function login(e) {
-        e.preventDefaul();
+        e.preventDefault();
         post("/login");
     }
 
@@ -65,8 +65,9 @@ export default function Login() {
                         </div>
                         <div className="flex items-center gap-3">
                             <button
-                                className="px-6 py-2 duration-300 bg-gray-700 rounded-lg text-gray-50 hover:scale-110"
+                                className={`px-6 py-2 duration-300 bg-gray-700 rounded-lg text-gray-50 hover:scale-110 ${processing ? "hover:cursor-not-allowed" : ""}`}
                                 type="submit"
+                                disabled={processing}
                             >
                                 Masuk
                             </button>

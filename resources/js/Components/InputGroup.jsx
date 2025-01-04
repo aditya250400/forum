@@ -15,6 +15,7 @@ export default function InputGroup({
                 </span>
                 <input
                     type={type}
+                    placeholder={placeholder}
                     className="w-full px-3 py-2 text-gray-700 bg-gray-100 border border-gray-200 rounded-r-md sm:text-sm placeholder:text-gray-400 focus:outline-none focus:ring-0 focus:border-sky-500"
                     {...props}
                 />
