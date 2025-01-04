@@ -1,107 +1,102 @@
-import { Transition } from '@headlessui/react';
-import { Link } from '@inertiajs/react';
-import { createContext, useContext, useState } from 'react';
+import React from "react";
+import { useForm } from "@inertiajs/react";
+import { Menu } from "@headlessui/react";
+import { Link } from "@inertiajs/react";
+import {
+    IconLogout,
+    IconNotes,
+    IconUserCircle,
+    IconBell,
+    IconBellPlus,
+    IconUsers,
+} from "@tabler/icons-react";
+export default function Dropdown({ auth }) {
+    const { post } = useForm();
 
-const DropDownContext = createContext();
+    const logout = async (e) => {
+        e.preventDefault();
 
-const Dropdown = ({ children }) => {
-    const [open, setOpen] = useState(false);
-
-    const toggleOpen = () => {
-        setOpen((previousState) => !previousState);
+        post("/logout");
     };
 
     return (
-        <DropDownContext.Provider value={{ open, setOpen, toggleOpen }}>
-            <div className="relative">{children}</div>
-        </DropDownContext.Provider>
-    );
-};
-
-const Trigger = ({ children }) => {
-    const { open, setOpen, toggleOpen } = useContext(DropDownContext);
-
-    return (
-        <>
-            <div onClick={toggleOpen}>{children}</div>
-
-            {open && (
-                <div
-                    className="fixed inset-0 z-40"
-                    onClick={() => setOpen(false)}
-                ></div>
-            )}
-        </>
-    );
-};
-
-const Content = ({
-    align = 'right',
-    width = '48',
-    contentClasses = 'py-1 bg-white',
-    children,
-}) => {
-    const { open, setOpen } = useContext(DropDownContext);
-
-    let alignmentClasses = 'origin-top';
-
-    if (align === 'left') {
-        alignmentClasses = 'ltr:origin-top-left rtl:origin-top-right start-0';
-    } else if (align === 'right') {
-        alignmentClasses = 'ltr:origin-top-right rtl:origin-top-left end-0';
-    }
-
-    let widthClasses = '';
-
-    if (width === '48') {
-        widthClasses = 'w-48';
-    }
-
-    return (
-        <>
-            <Transition
-                show={open}
-                enter="transition ease-out duration-200"
-                enterFrom="opacity-0 scale-95"
-                enterTo="opacity-100 scale-100"
-                leave="transition ease-in duration-75"
-                leaveFrom="opacity-100 scale-100"
-                leaveTo="opacity-0 scale-95"
-            >
-                <div
-                    className={`absolute z-50 mt-2 rounded-md shadow-lg ${alignmentClasses} ${widthClasses}`}
-                    onClick={() => setOpen(false)}
-                >
-                    <div
-                        className={
-                            `rounded-md ring-1 ring-black ring-opacity-5 ` +
-                            contentClasses
-                        }
+        <Menu className="relative z-30" as="div">
+            <Menu.Button className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 bg-gray-100 border border-gray-200 rounded-lg">
+                <img
+                    src={auth.user.avatar}
+                    alt={auth.user.name}
+                    className="w-6 h-6 border rounded-full border-sky-500"
+                />
+                <span className="line-clamp-1">{auth.user.name}</span>
+            </Menu.Button>
+            <Menu.Items className="absolute right-0 z-50 w-48 py-1 mt-2 font-normal bg-gray-100 border border-gray-200 rounded-lg">
+                <Menu.Item>
+                    <Link
+                        href="/threads"
+                        className="flex items-center gap-2 p-3 text-sm text-gray-700 rounded-lg hover:text-sky-700"
                     >
-                        {children}
-                    </div>
-                </div>
-            </Transition>
-        </>
+                        <IconNotes className="w-5 h-5" strokeWidth={"1.5"} />
+                        <span className="ml-2">Threads</span>
+                    </Link>
+                </Menu.Item>
+                <Menu.Item>
+                    <Link
+                        href="/users"
+                        className="flex items-center gap-2 p-3 text-sm text-gray-700 rounded-lg hover:text-sky-700"
+                    >
+                        <IconUsers className="w-5 h-5" strokeWidth={"1.5"} />
+                        <span className="ml-2">Users</span>
+                    </Link>
+                </Menu.Item>
+                <Menu.Item>
+                    <Link
+                        href="/account/notifications"
+                        className="flex items-center gap-2 p-3 text-sm text-gray-700 rounded-lg hover:text-sky-700"
+                    >
+                        {auth.user.notification_unreads > 0 ? (
+                            <>
+                                <IconBellPlus
+                                    className="w-5 h-5 text-rose-500"
+                                    strokeWidth={"1.5"}
+                                />
+                                <span className="ml-2">
+                                    {auth.user.notification_unreads}{" "}
+                                    Notifications
+                                </span>
+                            </>
+                        ) : (
+                            <>
+                                <IconBell
+                                    className="w-5 h-5"
+                                    strokeWidth={"1.5"}
+                                />
+                                <span className="ml-2">Notifications</span>
+                            </>
+                        )}
+                    </Link>
+                </Menu.Item>
+                <Menu.Item className="border-b border-dashed">
+                    <Link
+                        href={`/account/profile/${auth.user.username}`}
+                        className="flex items-center gap-2 p-3 text-sm text-gray-700 rounded-lg hover:text-sky-700"
+                    >
+                        <IconUserCircle
+                            className="w-5 h-5"
+                            strokeWidth={"1.2"}
+                        />
+                        <span className="ml-2">Profile</span>
+                    </Link>
+                </Menu.Item>
+                <Menu.Item>
+                    <button
+                        onClick={logout}
+                        className="flex items-center gap-2 p-3 text-sm text-gray-700 rounded-lg hover:text-sky-700"
+                    >
+                        <IconLogout className="w-5 h-5" strokeWidth={"1.2"} />
+                        <span className="ml-2">Logout</span>
+                    </button>
+                </Menu.Item>
+            </Menu.Items>
+        </Menu>
     );
-};
-
-const DropdownLink = ({ className = '', children, ...props }) => {
-    return (
-        <Link
-            {...props}
-            className={
-                'block w-full px-4 py-2 text-start text-sm leading-5 text-gray-700 transition duration-150 ease-in-out hover:bg-gray-100 focus:bg-gray-100 focus:outline-none ' +
-                className
-            }
-        >
-            {children}
-        </Link>
-    );
-};
-
-Dropdown.Trigger = Trigger;
-Dropdown.Content = Content;
-Dropdown.Link = DropdownLink;
-
-export default Dropdown;
+}
