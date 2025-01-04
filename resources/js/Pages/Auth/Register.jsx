@@ -1,120 +1,126 @@
-import InputError from '@/Components/InputError';
-import InputLabel from '@/Components/InputLabel';
-import PrimaryButton from '@/Components/PrimaryButton';
-import TextInput from '@/Components/TextInput';
-import GuestLayout from '@/Layouts/GuestLayout';
-import { Head, Link, useForm } from '@inertiajs/react';
+import React from "react";
+import InputGroup from "@/Components/InputGroup";
+import AuthLayout from "@/Layouts/AuthLayout";
+import { Head, Link, useForm } from "@inertiajs/react";
+import { IconAt, IconPassword, IconUser } from "@tabler/icons-react";
 
 export default function Register() {
-    const { data, setData, post, processing, errors, reset } = useForm({
-        name: '',
-        email: '',
-        password: '',
-        password_confirmation: '',
+    const { data, setData, post, errors } = useForm({
+        email: "",
+        name: "",
+        password: "",
+        password_confirmation: "",
     });
 
-    const submit = (e) => {
+    function register(e) {
         e.preventDefault();
 
-        post(route('register'), {
-            onFinish: () => reset('password', 'password_confirmation'),
-        });
-    };
+        post("/register");
+    }
 
     return (
-        <GuestLayout>
-            <Head title="Register" />
-
-            <form onSubmit={submit}>
-                <div>
-                    <InputLabel htmlFor="name" value="Name" />
-
-                    <TextInput
-                        id="name"
-                        name="name"
-                        value={data.name}
-                        className="mt-1 block w-full"
-                        autoComplete="name"
-                        isFocused={true}
-                        onChange={(e) => setData('name', e.target.value)}
-                        required
-                    />
-
-                    <InputError message={errors.name} className="mt-2" />
-                </div>
-
-                <div className="mt-4">
-                    <InputLabel htmlFor="email" value="Email" />
-
-                    <TextInput
-                        id="email"
-                        type="email"
-                        name="email"
-                        value={data.email}
-                        className="mt-1 block w-full"
-                        autoComplete="username"
-                        onChange={(e) => setData('email', e.target.value)}
-                        required
-                    />
-
-                    <InputError message={errors.email} className="mt-2" />
-                </div>
-
-                <div className="mt-4">
-                    <InputLabel htmlFor="password" value="Password" />
-
-                    <TextInput
-                        id="password"
-                        type="password"
-                        name="password"
-                        value={data.password}
-                        className="mt-1 block w-full"
-                        autoComplete="new-password"
-                        onChange={(e) => setData('password', e.target.value)}
-                        required
-                    />
-
-                    <InputError message={errors.password} className="mt-2" />
-                </div>
-
-                <div className="mt-4">
-                    <InputLabel
-                        htmlFor="password_confirmation"
-                        value="Confirm Password"
-                    />
-
-                    <TextInput
-                        id="password_confirmation"
-                        type="password"
-                        name="password_confirmation"
-                        value={data.password_confirmation}
-                        className="mt-1 block w-full"
-                        autoComplete="new-password"
-                        onChange={(e) =>
-                            setData('password_confirmation', e.target.value)
-                        }
-                        required
-                    />
-
-                    <InputError
-                        message={errors.password_confirmation}
-                        className="mt-2"
-                    />
-                </div>
-
-                <div className="mt-4 flex items-center justify-end">
-                    <Link
-                        href={route('login')}
-                        className="rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                    >
-                        Already registered?
-                    </Link>
-
-                    <PrimaryButton className="ms-4" disabled={processing}>
+        <>
+            <Head>
+                <title>Register</title>
+            </Head>
+            <AuthLayout>
+                <div className="w-full max-w-lg p-10 bg-white border rounded-lg">
+                    <h1 className="mb-2 text-2xl font-semibold text-black">
                         Register
-                    </PrimaryButton>
+                    </h1>
+                    <p className="mb-5 text-sm text-gray-500">
+                        Silahkan login, jika anda sudah memiliki akun.
+                    </p>
+                    <form onSubmit={register}>
+                        <div className="mb-5">
+                            <InputGroup
+                                label={"Name"}
+                                type={"text"}
+                                icon={
+                                    <IconUser
+                                        strokeWidth={"1.5"}
+                                        className="text-gray-400"
+                                    />
+                                }
+                                placeholder={"John Doe"}
+                                value={data.name}
+                                onChange={(e) =>
+                                    setData("name", e.target.value)
+                                }
+                                errors={errors.name}
+                            />
+                        </div>
+                        <div className="mb-5">
+                            <InputGroup
+                                label={"Email"}
+                                type={"text"}
+                                icon={
+                                    <IconAt
+                                        strokeWidth={"1.5"}
+                                        className="text-gray-400"
+                                    />
+                                }
+                                placeholder={"example@dev.com"}
+                                value={data.email}
+                                onChange={(e) =>
+                                    setData("email", e.target.value)
+                                }
+                                errors={errors.email}
+                            />
+                        </div>
+                        <div className="mb-5">
+                            <InputGroup
+                                label={"Kata Sandi"}
+                                type={"password"}
+                                icon={
+                                    <IconPassword
+                                        strokeWidth={"1.5"}
+                                        className="text-gray-400"
+                                    />
+                                }
+                                placeholder={"Secret..."}
+                                value={data.password}
+                                onChange={(e) =>
+                                    setData("password", e.target.value)
+                                }
+                                errors={errors.password}
+                            />
+                        </div>
+                        <div className="mb-5">
+                            <InputGroup
+                                label={"Konfirmasi Kata Sandi"}
+                                type={"password"}
+                                icon={
+                                    <IconPassword
+                                        strokeWidth={"1.5"}
+                                        className="text-gray-400"
+                                    />
+                                }
+                                placeholder={"Secret..."}
+                                value={data.passwordConfirmation}
+                                onChange={(e) =>
+                                    setData(
+                                        "password_confirmation",
+                                        e.target.value,
+                                    )
+                                }
+                            />
+                        </div>
+                        <div className="flex items-center gap-3">
+                            <button className="px-6 py-2 duration-300 rounded-lg bg-sky-700 text-gray-50 hover:scale-110">
+                                Daftar
+                            </button>
+                            <Link
+                                href={"/login"}
+                                className="px-6 py-2 duration-300 bg-gray-700 rounded-lg text-gray-50 hover:scale-110"
+                                type="submit"
+                            >
+                                Masuk
+                            </Link>
+                        </div>
+                    </form>
                 </div>
-            </form>
-        </GuestLayout>
+            </AuthLayout>
+        </>
     );
 }
