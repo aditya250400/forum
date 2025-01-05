@@ -12,7 +12,7 @@ import { toast } from "react-hot-toast";
 export default function Create() {
     const { tags } = usePage().props;
 
-    const { data, setData, post, transform, errors } = useForm({
+    const { data, setData, post, transform, errors, processing } = useForm({
         title: "",
         content: "",
         tagsData: [],
@@ -25,7 +25,6 @@ export default function Create() {
 
     const setTags = (value) => {
         setData("tagsData", value);
-        console.log(data.tagsData);
     };
 
     transform((data) => ({
@@ -66,6 +65,7 @@ export default function Create() {
                             action={submit}
                             btnTitle="Create Threads"
                             href={"/threads"}
+                            processing={processing}
                         >
                             <div className="mb-5">
                                 <Input

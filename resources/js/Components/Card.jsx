@@ -8,6 +8,7 @@ export default function Card({
     btnTitle,
     href,
     children,
+    processing,
 }) {
     return (
         <div className="bg-white rounded-lg">
@@ -22,8 +23,9 @@ export default function Card({
                 <div className="px-6 py-3 border-t border-gray-200">
                     <div className="flex items-center gap-3">
                         <button
+                            disabled={processing}
                             type="submit"
-                            className="flex items-center gap-1 px-4 py-2 text-sm rounded-lg bg-sky-700 text-gray-50 hover:bg-sky-800"
+                            className={`flex items-center gap-1 px-4 py-2 text-sm rounded-lg bg-sky-700 text-gray-50 hover:bg-sky-800 ${processing ? "opaciy-50 hover:cursor-not-allowed" : ""}`}
                         >
                             <IconPencilCheck
                                 strokeWidth={"1.5"}
