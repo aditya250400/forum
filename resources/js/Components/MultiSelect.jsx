@@ -1,5 +1,5 @@
 import React from "react";
-import CreatableSelect from "react-select";
+import CreatableSelect from "react-select/creatable";
 
 export default function MultiSelect({ label, errors, ...props }) {
     return (
