@@ -23,7 +23,7 @@ export default function UserItem({ user }) {
                             Threads
                         </div>
                         <div className="text-lg text-[#0084C7] font-bold">
-                            {user.threads}
+                            {user.threads_count}
                         </div>
                     </div>
                     <div className="flex flex-col gap-1 text-center">
@@ -31,7 +31,7 @@ export default function UserItem({ user }) {
                             Resolved
                         </div>
                         <div className="text-lg text-[#0084C7] font-bold">
-                            {user.resolved}
+                            {user.resolved_count}
                         </div>
                     </div>
                     <div className="flex flex-col gap-1 text-center">
@@ -39,7 +39,7 @@ export default function UserItem({ user }) {
                             Comments
                         </div>
                         <div className="text-lg text-[#0084C7] font-bold">
-                            {user.comments}
+                            {user.comments_count}
                         </div>
                     </div>
                 </div>

@@ -14,6 +14,8 @@ export default function Sidebar({
 }) {
     const { auth } = usePage().props;
 
+    console.log(auth);
+
     return (
         <div className="flex flex-col gap-5 lg:sticky lg:top-20">
             <UserItem user={auth.user} />

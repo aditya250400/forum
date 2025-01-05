@@ -41,7 +41,7 @@ class ThreadController extends Controller
             $thread->tags()->attach($tag);
         }
 
-        return to_route('threads.index');
+        return redirect()->route('threads.index');
     }
 
     public function edit(Thread $thread)
