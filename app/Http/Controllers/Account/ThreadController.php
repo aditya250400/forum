@@ -8,6 +8,7 @@ use App\Http\Resources\Thread\ThreadResource;
 use App\Models\Tag;
 use App\Models\Thread;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class ThreadController extends Controller
 {
@@ -46,7 +47,7 @@ class ThreadController extends Controller
 
     public function edit(Thread $thread)
     {
-        $this->authorize('update', $thread);
+        Gate::authorize('update', $thread);
 
         $tags = Tag::get()->map(function ($tag) {
             return [
@@ -65,7 +66,7 @@ class ThreadController extends Controller
 
     public function update(ThreadRequest $request, Thread $thread)
     {
-        $this->authorize('update', $thread);
+        Gate::authorize('update', $thread);
 
         $thread->update([
             'title' => $request->title,
@@ -92,7 +93,8 @@ class ThreadController extends Controller
 
     public function destroy(Thread $thread)
     {
-        $this->authorize('destroy', $thread);
+        Gate::authorize('Destroy', $thread);
+
 
         $thread->delete();
 
