@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Account\NotificationController;
 use App\Http\Controllers\Account\ProfileController;
 use App\Http\Controllers\Account\ThreadController;
 use Illuminate\Support\Facades\Route;
@@ -29,6 +30,12 @@ Route::group(['prefix' => 'account', 'as' => 'account.', 'middleware' => ['auth'
     Route::controller(ProfileController::class)->group(function () {
         Route::get('/profile/{user:username}', 'index');
         Route::put('/profile/{user}', 'updateProfile');
+    });
+
+    /** profiles route */
+    Route::controller(NotificationController::class)->as('notifications.')->group(function () {
+        Route::get('/notifications', 'index')->name('index');
+        Route::post('/notifications/read', 'read')->name('read');
     });
 });
 
