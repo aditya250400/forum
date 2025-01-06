@@ -238,7 +238,7 @@ export default function Index() {
                         ))}
                     </div>
                     {threads.last_page !== 1 && (
-                        <Pagination links={threads.links} />
+                        <Pagination links={threads.meta.links} />
                     )}
                 </div>
             </div>

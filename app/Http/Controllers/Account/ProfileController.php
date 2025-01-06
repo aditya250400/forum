@@ -2,20 +2,26 @@
 
 namespace App\Http\Controllers\Account;
 
-use App\Http\Controllers\Controller;
-use App\Models\Thread;
 use App\Models\User;
+use App\Models\Thread;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
+use App\Http\Resources\User\UsersResource;
+use App\Http\Resources\Thread\ThreadsResource;
 
 class ProfileController extends Controller
 {
-    private $path = 'public/avatars/';
+    /**
+     * path store image
+     */
 
     public function index(User $user)
     {
+        // load relationship
         $user->loadCount('threads', 'resolved', 'comments');
 
+        // get all threads data
         $threads = Thread::query()
             ->with('user', 'tags')
             ->withCount('comments')
@@ -26,42 +32,60 @@ class ProfileController extends Controller
             ->latest()
             ->paginate(6)->withQueryString();
 
-        return inertia('Account/Profile/Index', compact('user', 'threads'));
+        // render view
+        return inertia('Account/Profile/Index', [
+            'user' => new UsersResource($user),
+            'threads' => ThreadsResource::collection($threads),
+        ]);
     }
 
-    public function updateProfile(User $user, request $request)
+    public function updateProfile(User $user, Request $request)
     {
         if ($request->password) {
+            // update user data by id
             $user->update([
                 'name' => $request->name,
-                'username' => str()->slug($request->username) . '-' . $user->id,
+                'username' => str()->slug($request->name),
                 'password' => bcrypt($request->password),
             ]);
-
+            // check if user send avatar
             if ($request->file('avatar')) {
-                Storage::disk('local')->delete($this->path . basename($user->avatar));
+                // delete old image
+                Storage::disk('public')->delete('avatars/' . basename($user->avatar));
 
+                // upload new avatar
                 $avatar = $request->file('avatar');
-                $avatar->storeAs($this->path, $avatar->hashname());
+                $avatar->storeAs('avatars', $avatar->hashName());
 
-                $user->update(['avatar' => $avatar->hashName()]);
+                // update user data by id
+                $user->update([
+                    'avatar' => $avatar->hashName()
+                ]);
             }
         } else {
+            // update user data by id
             $user->update([
                 'name' => $request->name,
                 'username' => str()->slug($request->name),
             ]);
 
+            // check if user send avatar
             if ($request->file('avatar')) {
-                Storage::disk('local')->delete($this->path . basename($user->avatar));
+                // delete old image
+                Storage::disk('public')->delete('avatars/' . basename($user->avatar));
 
+                // upload new avatar
                 $avatar = $request->file('avatar');
-                $avatar->storeAs($this->path, $avatar->hashName());
+                $avatar->storeAs('avatars', $avatar->hashName());
 
+                // update user data by id
                 $user->update([
                     'avatar' => $avatar->hashName()
                 ]);
             }
         }
+
+        // render view
+        return to_route('threads.index');
     }
 }
