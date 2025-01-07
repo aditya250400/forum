@@ -13,10 +13,14 @@ class CommentController extends Controller
 {
     public function store(Thread $thread, Request $request)
     {
+
+        $validated = $request->validate([
+            'content' => 'required',
+        ]);
         // create new comment
         $thread->comments()->create([
             'user_id' => $request->user()->id,
-            'content' => $request->content,
+            'content' => $validated['content'],
         ]);
 
 

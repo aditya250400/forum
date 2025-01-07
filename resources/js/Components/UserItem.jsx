@@ -1,14 +1,20 @@
 import React from "react";
-import { Link } from "@inertiajs/react";
+import { Link, usePage } from "@inertiajs/react";
 
 export default function UserItem({ user }) {
+    const { auth } = usePage().props;
+
     return (
         <div className="bg-white rounded-lg">
             <div className="flex flex-col items-center justify-center gap-4 p-6 py-4 text-center">
                 <img src={user.avatar} className="w-20 h-20 rounded-full" />
                 <div>
                     <Link
-                        href={`/users/${user.username}`}
+                        href={
+                            auth.user.username === user.username
+                                ? `/account/profile/${auth.user.username}`
+                                : `/users/${user.username}`
+                        }
                         className="font-bold text-center text-gray-700"
                     >
                         {user.name}

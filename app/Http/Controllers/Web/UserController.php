@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Thread\ThreadResource;
+use App\Http\Resources\Thread\ThreadsResource;
 use App\Http\Resources\User\UsersResource;
 use App\Models\Thread;
 use App\Models\User;
@@ -20,8 +20,8 @@ class UserController extends Controller
 
     public function show(User $user)
     {
-        $user->load('thread', 'comments', 'resolved');
-        $threads = Thread::with(['tags', 'user' => function ($query) {
+        $user->load('threads', 'comments', 'resolved');
+        $threads = Thread::query()->with(['tags', 'user' => function ($query) {
             $query->withCount('resolved', 'comments', 'threads');
         }])
             ->search()
@@ -33,7 +33,7 @@ class UserController extends Controller
 
         return inertia('Web/Users/Show', [
             'user' => new UsersResource($user),
-            'threads' => ThreadResource::collection($threads),
+            'threads' => ThreadsResource::collection($threads),
         ]);
     }
 }

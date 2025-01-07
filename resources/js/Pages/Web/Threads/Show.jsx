@@ -25,7 +25,7 @@ export default function Show() {
     const [isOpen, setIsOpen] = useState(false);
     const [id, setId] = useState("");
     const [formUpdate, setFormUpdate] = useState(false);
-    const { data, setData, post, reset, transform } = useForm({
+    const { data, setData, post, reset, transform, errors } = useForm({
         content: "",
     });
 
@@ -214,6 +214,7 @@ export default function Show() {
                                         }
                                         value={data.content}
                                         onChange={setContent}
+                                        errors={errors.content}
                                     />
                                     <div className="flex items-center gap-2 mt-5">
                                         <button
