@@ -29,7 +29,7 @@ export default function Show() {
         content: "",
     });
 
-    transform((data = { ...data, _method: formUpdate ? "put" : "post" }));
+    transform((data) => ({ ...data, _method: formUpdate ? "put" : "post" }));
 
     const setContent = (value) => {
         setData("content", value);
@@ -75,18 +75,18 @@ export default function Show() {
 
     return (
         <>
-            <Head title={thead.slug} />
+            <Head title={thread.slug} />
             <MainLayout>
-                <div className="flex flex-col-reverse md:flex-row gap-5">
+                <div className="flex flex-col-reverse gap-5 md:flex-row">
                     <div className="w-full md:w-8/12">
                         <div className="bg-white rounded-lg">
-                            <div className="border-b px-6 py-3">
+                            <div className="px-6 py-3 border-b">
                                 <div className="flex items-center gap-2">
                                     <img
                                         src={thread.user.avatar}
-                                        className="rounded-full w-8 h-8"
+                                        className="w-8 h-8 rounded-full"
                                     />
-                                    <span className="text-sm text-gray-900 font-semibold">
+                                    <span className="text-sm font-semibold text-gray-900">
                                         {thread.user.username}
                                     </span>
                                 </div>
@@ -95,12 +95,12 @@ export default function Show() {
                                 <h1 className="font-semibold text-gray-900 underline underline-offset-2">
                                     {thread.title}
                                 </h1>
-                                <div className="text-sm text-justify mt-5">
+                                <div className="mt-5 text-sm text-justify">
                                     <Markdown>{thread.content}</Markdown>
                                 </div>
                             </div>
-                            <div className="border-t border-gray-200 px-6 py-3">
-                                <div className="flex flex-wrap justify-start lg:justify-end items-center gap-4">
+                            <div className="px-6 py-3 border-t border-gray-200">
+                                <div className="flex flex-wrap items-center justify-start gap-4 lg:justify-end">
                                     <div className="flex items-center gap-1 text-sm">
                                         <IconMessage2
                                             className="w-5 h-5"
@@ -156,10 +156,10 @@ export default function Show() {
                                                     setIsOpen(!isOpen),
                                                     setFormUpdate(true)
                                                 )}
-                                                className="bg-sky-100 p-1 rounded-full border border-sky-100 hover:bg-sky-200"
+                                                className="p-1 border rounded-full bg-sky-100 border-sky-100 hover:bg-sky-200"
                                             >
                                                 <IconPencil
-                                                    className="text-sky-500 w-5 h-5"
+                                                    className="w-5 h-5 text-sky-500"
                                                     strokeWidth={"1.5"}
                                                 />
                                             </button>
@@ -178,9 +178,9 @@ export default function Show() {
                     <div className="w-full md:w-4/12">
                         <div className="sticky top-20">
                             <button
-                                className="w-full bg-white rounded-lg px-3 py-2 font-bold text-gray-700 flex items-center gap-2 justify-start hover:bg-gray-300"
+                                className="flex items-center justify-start w-full gap-2 px-3 py-2 font-bold text-gray-700 bg-white rounded-lg hover:bg-gray-300"
                                 onClick={() => {
-                                    setIsOpen(!isOpen);
+                                    setIsOpen(true);
                                 }}
                             >
                                 <IconMessage2Plus
@@ -215,10 +215,10 @@ export default function Show() {
                                         value={data.content}
                                         onChange={setContent}
                                     />
-                                    <div className="mt-5 flex items-center gap-2">
+                                    <div className="flex items-center gap-2 mt-5">
                                         <button
                                             type="submit"
-                                            className="rounded-lg px-4 py-2 bg-sky-700 text-gray-50 hover:bg-sky-800 flex items-center gap-1 text-sm"
+                                            className="flex items-center gap-1 px-4 py-2 text-sm rounded-lg bg-sky-700 text-gray-50 hover:bg-sky-800"
                                         >
                                             <IconPencilCheck
                                                 strokeWidth={"1.5"}
@@ -227,7 +227,7 @@ export default function Show() {
                                             Save Comment
                                         </button>
                                         <button
-                                            className="rounded-lg px-4 py-2 bg-rose-700 text-gray-50 hover:bg-rose-800 flex items-center gap-1 text-sm"
+                                            className="flex items-center gap-1 px-4 py-2 text-sm rounded-lg bg-rose-700 text-gray-50 hover:bg-rose-800"
                                             onClick={() => setIsOpen(!isOpen)}
                                         >
                                             <IconPencilCancel

@@ -4,16 +4,14 @@ use App\Http\Controllers\Account\CommentController;
 use App\Http\Controllers\Account\NotificationController;
 use App\Http\Controllers\Account\ProfileController;
 use App\Http\Controllers\Account\ThreadController;
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Web\ThreadController as WebThreadController;
+use App\Http\Middleware\CustomRedirectIfAuthenticated;
 use Inertia\Inertia;
 
 
-Route::middleware('guest')->group(function () {
-    Route::get('/', function () {
-        return Inertia::render('Auth/Login');
-    });
-});
+Route::get('/', [AuthenticatedSessionController::class, 'create'])->middleware(CustomRedirectIfAuthenticated::class)->name('login');
 
 Route::group(['middleware' => ['auth']], function () {
     /** thread route */

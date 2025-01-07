@@ -25,7 +25,6 @@ class CommentController extends Controller
             'from_user_id' => $request->user()->id,
             'to_user_id' => $thread->user_id,
             'messages' => 'Memberikan komentar pada thread anda yang berjudul ' . $thread->title,
-            '.'
         ]);
 
         // render view
