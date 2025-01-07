@@ -8,6 +8,8 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Web\ThreadController as WebThreadController;
 use App\Http\Middleware\CustomRedirectIfAuthenticated;
+use App\Http\Controllers\Web\TagController as WebTagController;
+use App\Http\Controllers\Web\UserController as WebUserController;
 use Inertia\Inertia;
 
 
@@ -18,6 +20,15 @@ Route::group(['middleware' => ['auth']], function () {
     Route::controller(WebThreadController::class)->as('threads.')->group(function () {
         Route::get('/threads', 'index')->name('index');
         Route::get('/threads/{thread:slug}', 'show')->name('show');
+    });
+
+    /** tags route */
+    Route::get('/threads/tags/{tag:slug}', WebTagController::class)->name('tags.index');
+
+    /** users route */
+    Route::controller(WebUserController::class)->as('users.')->group(function () {
+        Route::get('/users', 'index')->name('index');
+        Route::get('/users/{user:username}', 'show')->name('show');
     });
 });
 
