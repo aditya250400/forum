@@ -4,8 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Coderflex\Laravisit\Concerns\HasVisits;
+use Coderflex\Laravisit\Concerns\CanVisit;
 
-class Thread extends Model
+class Thread extends Model implements CanVisit
 {
     use HasVisits;
     protected $guarded = [];

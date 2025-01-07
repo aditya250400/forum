@@ -10,10 +10,8 @@ import React from "react";
 import { toast } from "react-hot-toast";
 
 export default function Edit() {
-    // define construct props
     const { tags, thread } = usePage().props;
 
-    // define useform helper inertia
     const { data, setData, post, transform, errors } = useForm({
         title: thread.title,
         content: thread.content,
@@ -22,23 +20,19 @@ export default function Edit() {
         _method: "put",
     });
 
-    // get content value
     const setContent = (value) => {
         setData("content", value);
     };
 
-    // get tags value
     const setTags = (value) => {
         setData("tagsData", value);
     };
 
-    // transform data before submit
     transform((data) => ({
         ...data,
         tags: data.tagsData.map((tag) => tag.label),
     }));
 
-    // define method submit
     function submit(e) {
         e.preventDefault();
 

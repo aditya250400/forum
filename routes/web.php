@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Account\CommentController;
 use App\Http\Controllers\Account\NotificationController;
 use App\Http\Controllers\Account\ProfileController;
 use App\Http\Controllers\Account\ThreadController;
@@ -32,10 +33,18 @@ Route::group(['prefix' => 'account', 'as' => 'account.', 'middleware' => ['auth'
         Route::put('/profile/{user}', 'updateProfile');
     });
 
-    /** profiles route */
+    /** notifications route */
     Route::controller(NotificationController::class)->as('notifications.')->group(function () {
         Route::get('/notifications', 'index')->name('index');
         Route::post('/notifications/read', 'read')->name('read');
+    });
+
+    /** comments route */
+    Route::controller(CommentController::class)->as('comments.')->group(function () {
+        Route::post('/comments/{thread}', 'store')->name('store');
+        Route::put('/comments/{comment}', 'update')->name('update');
+        Route::delete('/comments/{comment}', 'destroy')->name('destroy');
+        Route::put('/comments/{thread}/solution/{comment}', 'solution')->name('solution');
     });
 });
 
