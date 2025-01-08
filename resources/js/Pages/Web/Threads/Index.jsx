@@ -27,7 +27,6 @@ export default function Index() {
 
     return (
         <>
-            <MainLayout>
                 <Head title="Threads" />
                 <div className="flex flex-col-reverse gap-10 md:flex-row">
                     <div className="w-full md:w-8/12">
@@ -83,7 +82,10 @@ export default function Index() {
                         />
                     </div>
                 </div>
-            </MainLayout>
         </>
     );
 }
+
+
+Index.layout = (page) => <MainLayout children={page} />;
+
